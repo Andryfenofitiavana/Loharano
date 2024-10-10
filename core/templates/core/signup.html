@@ -1,0 +1,47 @@
+{% extends "core/base.html" %}
+
+{%block title%} Hiditra mpikambana{%endblock%}
+
+{%block content%}
+<div class="w-1/2 my-6 mx-auto p-6 rounded-xl text-white" style="background-color: #222831">
+    <h1 class="mb-6 text-3xl text-white">Hiditra mpikambana</h1>
+    <form method="post" action=".">
+        {% csrf_token %}
+        <div class="mb-3 text-white">
+            <label class="inline-block mb-2">Anarana</label><br>
+            {{form.username}}
+        </div>
+        <br>
+        <div class="mb-3 text-white">
+            <label class="inline-block mb-2">Adresy mailaka</label><br>
+            {{form.email}}
+        </div>
+        <br>
+        <div class="mb-3 text-white">
+            <label class="inline-block mb-2">Teny miafina</label><br>
+            {{form.password1}}
+        </div>
+        <br>
+        <div class="mb-3 text-white">
+            <label class="inline-block mb-2">Avereno kely oe le teny miafina</label><br>
+            {{form.password2}}
+        </div>
+        <br>
+        {% if form.errors or form.non_fiedl_errors %}
+            <div class="mb-3 p-6 bg-red-100 rounded-xl">
+                {% for field in form%}
+                {{field.errors}}
+                 {% endfor %}
+                 {{form.non_field_errors}}
+            </div>
+        {% endif%}
+        <button 
+            class="py-4 px-8 text-lg rounded-xl text-white" 
+            style="background-color: #2A9EC1; transition: background-color 0.3s;" 
+            onmouseover="this.style.backgroundColor='#1A6F97'" 
+            onmouseout="this.style.backgroundColor='#2A9EC1'">
+            Hisoratra anarana
+        </button>
+    </form>
+</div>
+{%endblock%}

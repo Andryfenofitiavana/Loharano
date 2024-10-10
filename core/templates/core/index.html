@@ -1,0 +1,124 @@
+{% extends "core/base.html" %}
+
+{% block title %} Tongasoa {% endblock %}
+
+{% block content %}
+<!-- Inline CSS for static gradient background -->
+<style>
+    /* Enhanced Header Static Gradient Background */
+    .header {
+        background: linear-gradient(90deg, rgba(40, 44, 52, 0.8), rgba(85, 105, 124, 0.8), rgba(125, 157, 193, 0.8));
+        color: white;
+        padding: 40px;
+        text-align: center;
+        font-size: 3em;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        border-radius: 10px;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 1.5s ease-in-out;
+    }
+
+    /* Fade-in animation for header */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Item Container Styles */
+    .item-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        background-color: #20232A;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Hover effect on item container */
+    .item-container:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .image-container {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
+    .item-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .p-6 {
+        padding: 20px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+  
+    /* Animation on scroll */
+    .item-container.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+</style>
+
+<h1 class="header">Tongasoa eto amin'ny pejin'ny i-varotra </h1>
+
+<!-- Entana vaovao Section -->
+<div class="mt-6 px-6 py-12 rounded-xl" style="background-color: #222831">
+    <h2 class="mb-12 text-2xl text-center text-white">Entana vaovao</h2>
+    <div class="grid grid-cols-4 gap-3">
+        {% for item in items %}
+            <div class="item-container">
+                <a href="{% url 'item:detail' item.id %}">
+                    <div class="image-container">
+                        {% if item.sary %}
+                            <img src="{{ item.sary.url }}" class="item-image">
+                        {% else %}
+                            <img src="/path/to/default-image.jpg" class="item-image">
+                        {% endif %}
+                    </div>
+
+                    <div class="p-6">
+                        <h2 class="text-2xl text-white">{{ item.anarana }}</h2>
+                        <p class="text-gray-100">Vidiny: {{ item.vidiny }}$</p>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Sokajin'Entana Section -->
+<div class="mt-6 px-6 py-12 rounded-xl" style="background-color: #222831">
+    <h2 class="mb-12 text-2xl text-center text-white">Ny Sokajin'Entana misy</h2>
+    <div class="grid grid-cols-4 gap-3">
+        {% for category in categories %}
+            <div>
+                <a href="#">
+                    <div class="p-6 rounded-xl" style="background-color: #20232A">
+                        <h2 class="text-2xl text-white">{{ category.anarana }}</h2>
+                        <p class="text-gray-200">{{ category.items.count }}</p>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock %}

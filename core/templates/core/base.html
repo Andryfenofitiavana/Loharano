@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}  |  i-Varotra</title>
+    <link rel="icon" href="{% static 'media/icon.png' %}" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #1E201E;
+            color: #2D3748;
+            padding-top: 90px;
+            font-family: sans-serif;
+        }
+        nav {
+            background: linear-gradient(90deg, #2D3748, #121417); /* Darker color */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #E2E8F0;
+            border-bottom-left-radius: 10px; /* Rounded bottom left corner */
+            border-bottom-right-radius: 10px; /* Rounded bottom right corner */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            padding: 0.5rem 1rem; /* Adjust to reduce spacing */
+            margin: 0; /* Remove any excessive margins */
+        }
+        nav a:hover {
+            color: #E2E8F0;
+        }
+        .mobile-menu {
+            display: none;
+        }
+        .desktop-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem; /* Adjust gap between items */
+        }
+                
+        footer {
+            background-color: #4A5568;
+            color: white;
+            padding: 20px 40px;
+            margin-top: 20px;
+        }
+        footer a {
+            color: #63B3ED;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #B2E4F0;
+        }
+        .footer-section {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .footer-section div {
+            margin-bottom: 20px;
+        }
+        .inbox-link:hover {
+            background-color: #808080; /* The color you want on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="py-6 flex justify-between items-center text-white">
+        <a href="/" class="menlo text-2xl font-bold flex items-center"> <!-- Added flex for alignment -->
+            <img src="{% static 'media/icon.png' %}" class="w-8 h-8 mr-2" /> <!-- Adjust width and height as needed -->
+            i-varotra
+        </a>
+        <div class="space-x-6 desktop-menu flex items-center">
+            <a href="{% url 'item:new' %}" class="text-lg font-semibold">Entana vaovao</a>
+            <a href="{% url 'item:items' %}" class="text-lg font-semibold">Hijerijery</a>
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'core:logout' %}?next=/login/" class="px-4 py-2 text-lg font-semibold bg-red-700 hover:bg-red-900 text-white rounded-xl">Hidekônekita</a>
+            <a href="{% url 'conversation:inbox' %}" class="px-4 py-2 text-lg font-semibold text-white bg-[#2A9EC1] hover:bg-[#166680] rounded-xl">Messazy</a>
+            <a href="{% url 'dashboard:index' %}" class="px-4 py-2 text-lg font-semibold text-white rounded-xl bg-[#FF8C00] hover:bg-[#995C00]">Ny kojakojako</a>
+            {% else %}
+            <a href="{% url 'core:signup' %}" class="px-4 py-2 text-lg font-semibold text-white rounded-xl bg-[#2A9EC1] hover:bg-[#166680] ">Hiditra mpikambana</a>
+            <a href="{% url 'core:login' %}" class="px-4 py-2 text-lg font-semibold text-white rounded-xl bg-[#FF8C00] hover:bg-[#995C00]">Hikônekita</a>
+            {% endif %}
+        </div>
+        <button id="mobile-menu-button" class="mobile-menu text-lg font-semibold text-white focus:outline-none">
+            Menu
+        </button>
+    </nav>    
+
+    <!-- Main Content Area -->
+    <div class="px-6 py-6">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="w-full md:w-2/3 pr-10">
+            <h3 class="mb-5 font-semibold text-gray-400">À propos</h3>
+            <p class="text-lg text-gray-300">
+                Tongasoa ry zalah, mba nananbotra an'ity ah zany mba jerena oe mande ve ny mande. Rah te hifandray amiko dia azonao atao ny mametraka hafatra eto. Na tsidiho ireo rohy eto ambany:
+                <a href="https://www.facebook.com/andriamanantena.fenofitiavana" class="text-blue-300">Facebook</a> |
+                <a href="https://www.instagram.com/raised.man/" class="text-blue-300">Instagram</a>
+            </p>
+        </div>
+        <div class="w-full md:w-1/3">
+            <h3 class="mb-5 font-semibold text-gray-400">Menu</h3>
+            <ul class="space-y-2">
+                <li><a href="#" class="text-lg text-teal-300 hover:text-teal-400">Mombamomba</a></li>
+                <li><a href="{% url 'core:contact' %}" class="text-lg text-teal-300 hover:text-teal-400">Fifandraisana</a></li>
+                <li><a href="#" class="text-lg text-teal-300 hover:text-teal-400">Politika fiarovana</a></li>
+                <li><a href="#" class="text-lg text-teal-300 hover:text-teal-400">Fomba fampiasana</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- JavaScript Section -->
+    <script>
+        document.getElementById("mobile-menu-button").addEventListener("click", function() {
+            const menu = document.getElementById("mobile-menu");
+            menu.classList.toggle("hidden");
+        });
+    </script>
+</body>
+</html>

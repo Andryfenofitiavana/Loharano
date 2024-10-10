@@ -1,0 +1,112 @@
+{% extends "core/base.html" %}
+{% block title %} {{ item.anarana }} {% endblock %}
+
+{% block content %}
+<!-- Inline CSS for images -->
+<style>
+    .image-container {
+        width: 100%; /* Full width of the column */
+        height: 500px; /* Set a consistent height for the image container */
+        overflow: hidden; /* Hide any overflow */
+        border-radius: 20px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+    }
+
+    .item-image {
+        width: 100%; /* Make the image fill the container */
+        height: 100%; /* Ensure the image takes up the entire height */
+        object-fit: cover; /* Cover the container while maintaining aspect ratio */
+        border-radius: 20px; /* Round the corners of the image */
+    }
+
+    .item-container1 {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-container1 {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
+    .item-image1 {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
+    .p-6.bg-indigo {
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+</style>
+
+<div class="grid grid-cols-5 gap-6">
+    <div class="col-span-3">
+        <div class="image-container">
+            {% if item.sary %}
+                <img src="{{ item.sary.url }}" class="item-image" alt="{{ item.anarana }}">
+            {% else %}
+                <img src="/path/to/default-image.jpg" class="item-image" alt="Default Image">
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-span-2 p-6 rounded-xl" style="background-color: #222831">
+        <h1 class="mb-6 text-3xl text-white">{{item.anarana}}</h1>
+        <p class="text-gray-100"><strong>Vidiny: </strong>{{item.vidiny}} $</p>
+        <p class="text-gray-100"><strong>Mpivarotra: </strong>{{item.mpivarotra.username}} </p>
+
+        {% if item.fanazavana %}
+        <p class="text-gray-300">
+            <strong class="text-gray-100">Mombamomban'le entana: </strong><br>
+            {{item.fanazavana}}
+        </p>
+        {% endif %}
+
+        {% if request.user == item.mpivarotra %}
+        <div class="mt-6 p-6 rounded-xl text-white" style="background-color: #1E201E">
+            <p>Amidinao io entana io!</p>
+            <a href="{% url 'item:edit' item.id %}"  class="inline-block mt-6 px-6 py-3 text-lg font-semibold  hover:bg-gray-700 text-white rounded-xl" style="background-color: #2A9EC1">Hovaina</a>
+            <a href="{% url 'item:delete' item.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-red-500 hover:bg-red-900 text-white rounded-xl">Ho fanafàna</a>
+        </div>
+    {% else %}  
+        <a href="{%url 'conversation:new' item.id%}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold text-white rounded-xl" style="background-color: #2A9EC1">Hiresaka amin'le mpivarotra</a>
+    {% endif %}
+    </div>
+</div>
+
+<div class="mt-6 px-6 py-12 rounded-xl" style="background-color: #222831">
+    <h2 class="mb-12 text-2xl text-center text-white"> Sao de mety aminao ko: </h2>
+    <div class="grid grid-cols-4 gap-3">
+        {% for item in related_items %}
+            <div class="item-container1">
+                <a href="{% url 'item:detail' item.id %}">
+                    <div class="image-container1">
+                        {% if item.sary %}
+                            <img src="{{ item.sary.url }}" class="item-image1">
+                        {% else %}
+                            <img src="/path/to/default-image.jpg" class="item-image1">
+                        {% endif %}
+                    </div>
+
+                    <div class="p-6" style="background-color: #20232A">
+                        <h2 class="text-2xl text-white">{{ item.anarana }}</h2>
+                        <p class="text-gray-100"> Vidiny: {{ item.vidiny }}$ </p>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

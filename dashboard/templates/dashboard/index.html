@@ -1,0 +1,105 @@
+{% extends "core/base.html" %}
+
+{% block title %} Tongasoa {% endblock %}
+
+{% block content %}
+<!-- Inline CSS for static gradient background -->
+<style>
+    /* Header Static Gradient Background */
+   
+    /* Item Container Styles */
+    /* Fade-in animation for header */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Item Container Styles */
+    .item-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        background-color: #20232A;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Hover effect on item container */
+    .item-container:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .image-container {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
+    .item-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .p-6 {
+        padding: 20px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+  
+    /* Animation on scroll */
+    .item-container.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<div class="mt-6 px-6 py-12 rounded-xl" style="background-color: #222831">
+    <h2 class="mb-12 text-2xl text-center text-white">Entana varotako</h2>
+    <div class="grid grid-cols-4 gap-3">
+        {% for item in items %}
+            <div class="item-container">
+                <a href="{% url 'item:detail' item.id %}">
+                    <div class="image-container">
+                        {% if item.sary %}
+                            <img src="{{ item.sary.url }}" class="item-image">
+                        {% else %}
+                            <img src="item_images/default.png" class="item-image">
+                        {% endif %}
+                    </div>
+
+                    <div class="p-6" style="background-color: #20232A">
+                        <h2 class="text-2xl text-white">{{ item.anarana }}</h2>
+                        <p class="text-gray-100"> Vidiny: {{ item.vidiny }}$ </p>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="mt-6 px-6 py-12 rounded-xl" style="background-color: #222831">
+    <h2 class="mb-12 text-2xl text-center text-white">Ny Sokajin'Entana misy</h2>
+    <div class="grid grid-cols-4 gap-3">
+        {% for category in categories %}
+            <div>
+                <a href="#">
+                    <div class="p-6 bg-white rounded-b-xl"style="background-color: #9099B0">
+                        <h2 class="text-2xl text-white-500">{{ category.anarana }}</h2>
+                        <p class="text-gray-200">{{ category.items.count }}</p>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

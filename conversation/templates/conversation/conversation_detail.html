@@ -1,0 +1,24 @@
+{%extends 'core/base.html'%}
+
+{%block title%}Messazy{%endblock%}
+{%block content%}
+<h1 class="mb-6 text-3xl text-white">Messazy</h1>
+<div class="space-y-6">
+    {%for message in conversation.messages.all%}
+            <div class="p-6 flex {% if message.created_by == request.user %}bg-black{% else %}bg-gray-600{% endif %} rounded-xl">    
+                <div>
+                    <p class="mb-4 text-white"><strong>{{message.created_by.username}}</strong> | {{message.created_at}}</p>
+                    <p class="text-white">{{message.content}}</p>
+                </div>
+            </div>
+    {%endfor%}
+</div>
+
+<form method="post" action="." class="mt-6">
+    <div class="mb-2 text-white">
+         {% csrf_token%}
+         {{form.as_p}}
+         <button class="py-4 px-8 text-lg rounded-xl text-white" style="background-color: #2A9EC1; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#1A6F97'" onmouseout="this.style.backgroundColor='#2A9EC1'">Handefa hafatra</button>
+    </div>
+</form>
+{%endblock%}
